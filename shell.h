@@ -145,7 +145,7 @@ char *copy_str(char *, char *);
 
 /*exit_shell.c */
 char *string_copy(char *, char *, int);
-char *string_concat(char *, char *, int);
+char *string_concate(char *, char *, int);
 char *find_char(char *, char);
 
 /*tow.c */
