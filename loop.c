@@ -56,7 +56,7 @@ int shell_loop(info_t *info, char **av)
 int locate_builtin(info_t *info)
 {
 	int t, builtin_result = -1;
-	builtin_table builtin_tbl[] = {
+	builtin_table builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
 		{"help", _myhelp},
@@ -69,7 +69,7 @@ int locate_builtin(info_t *info)
 	};
 
 	for (t = 0; builtintbl[t].type; t++)
-		if (_strcmp(info->argv[0], builtintbl[t].type) == 0)
+		if (strcmp(info->argv[0], builtintbl[t].type) == 0)
 		{
 			info->line_count++;
 			builtin_result = builtintbl[t].func(info);
