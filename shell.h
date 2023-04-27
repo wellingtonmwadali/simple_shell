@@ -146,7 +146,7 @@ char copy_str(char *destination, char *source);
 /*exit_shell.c */
 char *string_copy(char *destination, char *source, int num_chars);
 char *string_concat(char *dest, char *src, int num_bytes);
-char *find_char(char *str, char char_to_find)
+char *find_char(char *str, char char_to_find);
 
 /*tow.c */
 char *split_string_by_delimiter(char *str, char *delim);
@@ -235,6 +235,6 @@ int test_chain_delimeter(info_t info, charbuf, size_t *p);
 void verify_chain(info_t info, charbuf, size_t *p, size_t i, size_t len);
 int substitute_alias(info_t *info);
 int substitute_vars(info_t *info);
-int swap_string(char *old, char *new)
+int swap_string(char *old, char *new);
 
 #endif
