@@ -56,13 +56,13 @@ char *begins_with(const char *main_str, const char *sub_str)
 }
 
 /**
- * string_concate - concatenates two strings
+ * strin_concate - concatenates two strings
  * @dest_str: the destination buffer
  * @src_str: the source buffer
  *
  * Return: pointer to the destination buffer
  */
-char *string_concate(char *dest_str, char *src_str)
+char *strin_concate(char *dest_str, char *src_str)
 {
 	char *result = dest_str;
 

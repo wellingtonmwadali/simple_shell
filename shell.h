@@ -136,6 +136,7 @@ int string_length(char *);
 int string_compare(char *, char *);
 char *begins_with(const char *, const char *);
 char *string_concat(char *, char *);
+char *strin_concat(char *, char *);
 
 /*string2.c */
 int write_char(char);
