@@ -1,79 +1,74 @@
-
 #include "shell.h"
 
 /**
- * string_copy - function that copies a given string
- * @destination: the destination string to be copied to
- * @source: source string
- * @num_chars: amount of characters to be copied
- *
- * Return: the copied string
+ **_strncpy - functions that copies a string
+ *@desti:  destination string
+ *@srce: source string
+ *@m:  no  of characters to be copied
+ *Return:  concat string
  */
-char *string_copy(char *destination, char *source, int num_chars)
+char *_strncpy(char *desti, char *srce, int m)
 {
-	int x, y;
-	char *result = destination;
+	int l, k;
+	char *s = desti;
 
-	x = 0;
-	while (source[x] != '\0' && x < num_chars - 1)
+	l = 0;
+	while (srce[l] != '\0' && l < m - 1)
 	{
-		destination[x] = source[x];
-		x++;
+		desti[l] = srce[l];
+		l++;
 	}
-	if (x < num_chars)
+	if (l < m)
 	{
-		y = x;
-		while (y < num_chars)
+		k = l;
+		while (k < m)
 		{
-			destination[y] = '\0';
-			y++;
+			desti[k] = '\0';
+			k++;
 		}
 	}
-	return (result);
+	return (s);
 }
 
 /**
- * string_concate - function that concatenates two strings
- * @dest: the first string to concatenate
- * @src: the second string to concatenate
- * @num_bytes: the amount of bytes to be used at max
- *
- * Return: the concatenated string
+ **_strncat - function that concatenates two strings
+ *@dest: first string
+ *@src: second string
+ *@m: the no of bytes to be used
+ *Return: concatenated string
  */
-char *string_concate(char *dest, char *src, int num_bytes)
+char *_strncat(char *dest, char *src, int m)
 {
-	int x, y;
-	char *result = dest;
+	int l, k;
+	char *s = dest;
 
-	x = 0;
-	y = 0;
-	while (dest[x] != '\0')
-		x++;
-	while (src[y] != '\0' && y < num_bytes)
+	l = 0;
+	k = 0;
+	while (dest[l] != '\0')
+		l++;
+	while (src[k] != '\0' && j < n)
 	{
-		dest[x] = src[y];
-		x++;
-		y++;
+		dest[l] = src[j];
+		l++;
+		k++;
 	}
-	if (y < num_bytes)
-		dest[y] = '\0';
-	return (result);
+	if (k < m)
+		dest[l] = '\0';
+	return (s);
 }
 
 /**
- * find_char - function that locates a character in a string
- * @str: the string to parse
- * @char_to_find: the character to look for
- *
- * Return: a pointer to the memory area str
+ **_strchr - function that locates a character in a string
+ *@str: the string  parsed
+ *@d: character
+ *Return: (str)  ptr to  memory area
  */
-char *find_char(char *str, char char_to_find)
+char *_strchr(char *str, char d)
 {
 	do {
-		if (*str == char_to_find)
+		if (*str == d)
 			return (str);
 	} while (*str++ != '\0');
 
 	return (NULL);
 }
-

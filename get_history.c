@@ -1,159 +1,100 @@
 #include "shell.h"
 
 /**
- * get_history_file - function that returns the path to the history file
- * @info: the parameter struct
+ * get_history_file -function that  gets the history file
+ * @info: is parameter struct
  *
- * Return: allocated string containing path to history file,
- * or NULL on failure
+ * Return: allocated string with  history file
  */
+
 char *get_history_file(info_t *info)
 {
-	char *buffer, *home_dir;
+	char *buff, *dr;
 
-	home_dir = _getenv(info, "HOME=");
-	if (!home_dir)
+	dr = _getenv(info, "HOME=");
+	if (!dr)
 		return (NULL);
-
-	buffer = malloc(sizeof(char) * (_strlen(home_dir) + _strlen(HIST_FILE) + 2));
-	if (!buffer)
+	buff = malloc(sizeof(char) * (_strlen(dr) + _strlen(HIST_FILE) + 2));
+	if (!buff)
 		return (NULL);
-	buffer[0] = 0;
-
-	_strcpy(buffer, home_dir);
-	_strcat(buffer, "/");
-	_strcat(buffer, HIST_FILE);
-
-	free(home_dir);
-	return (buffer);
+	buff[0] = 0;
+	_strcpy(buff, dr);
+	_strcat(buff, "/");
+	_strcat(buff, HIST_FILE);
+	return (buff);
 }
 
 /**
- * build_history_list - function that adds an entry to the history linked list
- * @info: the parameter struct
- * @buffer: the buffer
- * @linecount: the history line count
+ * write_history - function that create file, or appends existing files
+ * @info: is the parameter struct
  *
- * Return: Always 0
- */
-int build_history_list(info_t *info, char *buffer, int linecount)
-{
-	list_t *node = NULL;
-
-	if (info->history)
-		node = info->history;
-
-	add_node_end(&node, buffer, linecount);
-
-	if (!info->history)
-		info->history = node;
-
-	return (0);
-}
-
-/**
- * renumber_history - function that renumbers the history
- * linked list after changes
- * @info: the parameter struct
- *
- * Return: the new history count
- */
-int renumber_history(info_t *info)
-{
-	list_t *node = info->history;
-	int t = 0;
-
-	while (node)
-	{
-		node->num = t++;
-		node = node->next;
-	}
-
-	return (info->histcount = t);
-}
-
-/**
- * write_history - function that writes history to file
- * @info: the parameter struct containing arguments
- *
- * Return: 1 on success, -1 on failure
+ * Return: 1 on success, otherwise -1
  */
 int write_history(info_t *info)
 {
-	ssize_t filedesc;
-	char *filename = get_history_file(info);
+	ssize_t d;
+	char *filenm = get_history_file(info);
 	list_t *node = NULL;
 
-	if (!filename)
+	if (!filenm)
 		return (-1);
 
-	filedesc = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	free(filename);
-
-	if (filedesc == -1)
+	d = open(filenm, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(filenm);
+	if (d == -1)
 		return (-1);
-
 	for (node = info->history; node; node = node->next)
 	{
-		_putsfd(node->str, filedesc);
-		_putfd('\n', filedesc);
+		_putsfd(node->str, d);
+		_putfd('\n', d);
 	}
-	_putfd(BUF_FLUSH, filedesc);
-
-	close(filedesc);
+	_putd(BUF_FLUSH, d);
+	close(d);
 	return (1);
 }
 
 /**
  * read_history - function that reads history from file
- * @info: the parameter struct containing arguments
+ * @info:is the parameter struct
  *
- * Return: the history count, 0 otherwise
+ * Return: history count on success, 0 opposite
  */
 int read_history(info_t *info)
 {
-	int t, last = 0, linecount = 0;
-	ssize_t filedesc, readlen, fsize = 0;
+	int j, last = 0, linecount = 0;
+	ssize_t d, rdlen, fsize = 0;
 	struct stat st;
-	char *buffer = NULL, *filename = get_history_file(info);
+	char *buf = NULL, *filenam = get_history_file(info);
 
 	if (!filename)
 		return (0);
 
-	filedesc = open(filename, O_RDONLY);
-	free(filename);
-
-	if (filedesc == -1)
+	d = open(filenam, O_RDONLY);
+	free(filenam);
+	if (d == -1)
 		return (0);
-
-	if (!fstat(filedesc, &st))
+	if (!fstat(d, &st))
 		fsize = st.st_size;
-
 	if (fsize < 2)
 		return (0);
-
-	buffer = malloc(sizeof(char) * (fsize + 1));
-	if (!buffer)
+	buf = malloc(sizeof(char) * (fsize + 1));
+	if (!buf)
 		return (0);
-
-	readlen = read(filedesc, buffer, fsize);
-	buffer[fsize] = 0;
-
-	if (readlen <= 0)
-		return (free(buffer), 0);
-
-	close(filedesc);
-
-	for (t = 0; t < fsize; t++)
-		if (buffer[t] == '\n')
+	rdlen = read(d, buf, fsize);
+	buf[fsize] = 0;
+	if (rdlen <= 0)
+		return (free(buf), 0);
+	close(d);
+	for (j = 0; j < fsize; j++)
+		if (buf[j] == '\n')
 		{
-			buffer[t] = 0;
-			build_history_list(info, buffer + last, linecount++);
-			last = t + 1;
+			buf[j] = 0;
+			build_history_list(info, buf + last, linecount++);
+			last = j + 1;
 		}
-	if (last != t)
-		build_history_list(info, buffer + last, linecount++);
-	free(buffer);
+	if (last != j)
+		build_history_list(info, buf + last, linecount++);
+	free(buf);
 	info->histcount = linecount;
 	while (info->histcount-- >= HIST_MAX)
 		delete_node_at_index(&(info->history), 0);
@@ -161,3 +102,40 @@ int read_history(info_t *info)
 	return (info->histcount);
 }
 
+/**
+ * build_history_list - function that adds entry to  history linked list
+ * @info: Structure that has possible arguments. maintain
+ * @buff: buffer
+ * @linecount1: history linecount
+ * Return: Always 0
+ */
+int build_history_list(info_t *info, char *buff, int linecount1)
+{
+	list_t *node = NULL;
+
+	if (info->history)
+		node = info->history;
+	add_node_end(&node, buff, linecount1);
+
+	if (!info->history)
+		info->history = node;
+	return (0);
+}
+
+/**
+ * renumber_history - function that renumbers history after changes
+ * @info: Structure that has arguments
+ * Return: the new history count
+ */
+int renumber_history(info_t *info)
+{
+	list_t *node = info->history;
+	int j = 0;
+
+	while (node)
+	{
+		node->num = j++;
+		node = node->next;
+	}
+	return (info->histcount = j);
+}

@@ -1,49 +1,43 @@
 #include "shell.h"
 
 /**
- * clear_information - function that nitializes info_t struct.
- * @info: Address of struct to initialize.
- *
- * Return: nothing
+ * clear_info - function that initializes info_t struct
+ * @info: the struct address
  */
-void clear_information(info_t *info)
+void clear_info(info_t *info)
 {
-	info->command = NULL;
-	info->command_args = NULL;
+	info->arg = NULL;
+	info->argv = NULL;
 	info->path = NULL;
-	info->command_arg_count = 0;
+	info->argc = 0;
 }
 
 /**
- * set_information - function that Sets info_t struct fields.
- * @info: Address of struct to set fields for.
- * @argv: Argument vector.
- *
- * Return: nothing
+ * set_info - function thata initializes info_t struct
+ * @info: is the struct address
+ * @av: the argument vector
  */
-void set_information(info_t *info, char **argv)
+void set_info(info_t *info, char **av)
 {
-	int t = 0;
+	int j = 0;
 
-	info->shell_name = argv[0];
-
-	if (info->command)
+	info->fname = av[0];
+	if (info->arg)
 	{
-		info->command_args = strtow(info->command, " \t");
-		if (!info->command_args)
+		info->argv = strtow(info->arg, " \t");
+		if (!info->argv)
 		{
 
-			info->command_args = malloc(sizeof(char *) * 2);
-			if (info->command_args)
+			info->argv = malloc(sizeof(char *) * 2);
+			if (info->argv)
 			{
-				info->command_args[0] = _strdup(info->command);
-				info->command_args[1] = NULL;
+				info->argv[0] = _strdup(info->arg);
+				info->argv[1] = NULL;
 			}
 		}
-
-		for (t = 0; info->command_args && info->command_args[t]; t++)
+		for (j = 0; info->argv && info->argv[j];j++)
 			;
-		info->command_arg_count = t;
+		info->argc = j;
 
 		replace_alias(info);
 		replace_vars(info);
@@ -51,38 +45,30 @@ void set_information(info_t *info, char **argv)
 }
 
 /**
- * free_information - Function that frees info_t struct fields.
- * @info: Address of struct to free fields for.
- * @free_all: If true, free all fields.
- *
- * Return: 0
+ * free_info - function that frees info_t struct
+ * @info: is struct address
+ * @al: true if freeing all
  */
-void free_information(info_t *info, int free_all)
+void free_info(info_t *info, int al)
 {
 	ffree(info->argv);
 	info->argv = NULL;
 	info->path = NULL;
-
-	if (free_all)
+	if (al)
 	{
 		if (!info->cmd_buf)
-			free(info->command);
+			free(info->arg);
 		if (info->env)
 			free_list(&(info->env));
 		if (info->history)
 			free_list(&(info->history));
 		if (info->alias)
 			free_list(&(info->alias));
-
 		ffree(info->environ);
-		info->environ = NULL;
-
-		ffree((void **)info->cmd_buf);
-
+			info->environ = NULL;
+		bfree((void **)info->cmd_buf);
 		if (info->readfd > 2)
 			close(info->readfd);
-
 		_putchar(BUF_FLUSH);
 	}
 }
-
