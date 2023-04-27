@@ -12,6 +12,7 @@ int check_alpha(int c)
 	else
 		return (0);
 }
+
 /**
  *check_delimiter - Function that checks if character is a delimiter
  *@c: charactr the check
