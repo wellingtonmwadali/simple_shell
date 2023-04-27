@@ -94,4 +94,4 @@ int display_help(info_t *info)
 		_puts(*args); /* temporary att_unused workaround */
 	return (0);
 }
-```
+
