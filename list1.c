@@ -21,7 +21,7 @@ list_t *insert_node_begin(list_t **head_ptr, const char *input_str, int index)
 	new_head->num = index;
 	if (input_str)
 	{
-		new_head->str = _strdup(input_str);
+		new_head->str = strdup(input_str);
 		if (!new_head->str)
 		{
 			free(new_head);
@@ -56,7 +56,7 @@ list_t *insert_node_end(list_t **head_ptr, const char *input_str, int index)
 	new_node->num = index;
 	if (input_str)
 	{
-		new_node->str = _strdup(input_str);
+		new_node->str = strdup(input_str);
 		if (!new_node->str)
 		{
 			free(new_node);
@@ -65,10 +65,11 @@ list_t *insert_node_end(list_t **head_ptr, const char *input_str, int index)
 	}
 	if (current_node)
 	{
-		while (current_node->next;
-				current_node = current_node->next;
-				current_node->next = new_node;
+		while (current_node->next){
+			current_node = current_node->next;
+			current_node->next = new_node;
 				}
+	}
 				else
 				*head_ptr = new_node;
 				return (new_node);
@@ -86,8 +87,8 @@ list_t *insert_node_end(list_t **head_ptr, const char *input_str, int index)
 
 				while (head)
 				{
-				_puts(head->str ? head->str : "(nil)");
-				_puts("\n");
+				puts(head->str ? head->str : "(nil)");
+				puts("\n");
 				head = head->next;
 				count++;
 				}
