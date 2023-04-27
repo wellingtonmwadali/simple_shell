@@ -105,7 +105,7 @@ int manage_alias(info_t *info)
 	}
 	for (t = 1; info->argv[t]; t++)
 	{
-		alias_end = _strchr(info->argv[i], '=');
+		alias_end = _strchr(info->argv[t], '=');
 		if (alias_end)
 			create_alias(info, info->argv[t]);
 		else

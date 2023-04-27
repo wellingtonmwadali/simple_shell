@@ -39,7 +39,7 @@ int str_to_int(char *s)
  */
 void display_error(info_t *info, char *error_str)
 {
-	print_to_stderr(info->fname);
+	print_to_stderr(info->shell_name);
 	print_to_stderr(": ");
 	print_decimal(info->line_count, STDERR_FILENO);
 	print_to_stderr(": ");
@@ -135,7 +135,7 @@ void eliminate_comments(char *buff)
 	for (t = 0; buff[t] != '\0'; t++)
 		if (buff[t] == '#' && (!t || buff[t - 1] == ' '))
 		{
-			buf[t] = '\0';
+			buff[t] = '\0';
 			break;
 		}
 }
