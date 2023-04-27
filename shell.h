@@ -135,7 +135,7 @@ int print_to_fd(char *str, int fd);
 int string_length(char *);
 int string_compare(char *, char *);
 char *begins_with(const char *, const char *);
-char *string_concat(char *, char *);
+char *string_concate(char *, char *);
 
 /*string2.c */
 int write_char(char);
