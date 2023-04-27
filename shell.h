@@ -118,9 +118,9 @@ void locate_command(info_t *info);
 void execute_command(info_t *info);
 
 /* parse.c */
-char duplicate_chars(charpath_string, int begin, int end);
-int executable_cmd(info_t info_struct, charfile_path);
-char locate_path(info_tinfo_struct, char path_string, charcommand);
+char duplicate_chars(char path_string, int begin, int end);
+int executable_cmd(info_t info_struct, char *file_path);
+char locate_path(info_t *info_struct, char *path_string, char *command);
 
 /* loophsh.c */
 int loophsh(char **);
@@ -135,7 +135,7 @@ int print_to_fd(char *str, int fd);
 int string_length(char *str);
 int string_compare(char *str1, char *str2);
 char begins_with(const char *main_str, const char *sub_str);
-char string_concat(char *dest_str, char *src_str);
+char str_concat(char *dest_str, char *src_str);
 
 /*string2.c */
 int write_char(char ch);
@@ -168,7 +168,7 @@ int is_interactive(info_t *information);
 
 /*errors1.c */
 int str_to_int(char *s);
-void display_error(info_t info, charerror_str);
+void display_error(info_t info, char error_str);
 int print_decimal(int input, int fd);
 char *num_to_str(long int num, int base, int flags);
 void eliminate_comments(char *buff);
@@ -186,10 +186,10 @@ int show_alias(list_t *node);
 int manage_alias(info_t *info);
 
 /*getline.c */
-ssize_t input_buf(info_t info, char **buf, size_tlen);
+ssize_t input_buf(info_t info, char **buf, size_t *len);
 ssize_t get_input(info_t *info);
-ssize_t read_buf(info_t info, charbuf, size_t *t);
-int _getline(info_t info, char **ptr, size_tlength);
+ssize_t read_buf(info_t info, char *buf, size_t *t);
+int _getline(info_t info, char **ptr, size_t *length);
 void sigintHandler(__attribute__((unused))int sig_num);
 
 /* get_info.c */
@@ -199,40 +199,40 @@ void free_information(info_t *info, int free_all);
 
 /*environ.c */
 int display_env(info_t *info);
-char find_env_var(info_tinfo, const char *var_name);
+char find_env_var(info_t *info, const char *var_name);
 int create_or_modify_env(info_t *info);
 int remove_env_var(info_t *info);
 int fill_env_list(info_t *info);
 
 /*getenv.c */
-char **get_environment(info_tinfo);
-int unset_environment_var(info_t info, charvariable);
-int set_environment_var(info_t info, charvariable, char *value);
+char **get_environment(info_t info);
+int unset_environment_var(info_t info, char variable);
+int set_environment_var(info_t info, char variable, char *value);
 
 /*history.c */
-char get_history_file(info_tinfo);
-int build_history_list(info_t info, charbuffer, int linecount);
+char get_history_file(info_t *info);
+int build_history_list(info_t info, char buffer, int linecount);
 int renumber_history(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
 
 /* lists1.c */
-list_t insert_node_begin(list_t **head_ptr, const charinput_str, int index);
-list_t insert_node_end(list_t **head_ptr, const charinput_str, int index);
+list_t insert_node_begin(list_t **head_ptr, const char input_str, int index);
+list_t insert_node_end(list_t **head_ptr, const char input_str, int index);
 size_t display_list_str(const list_t *head);
 int remove_node_at_index(list_t **head_ptr, unsigned int index);
 void release_list(list_t **head_ptr);
 
 /* lists2.c */
 size_t linked_list_length(const list_t *first_node);
-char **linked_list_to_string_array(list_thead);
+char **linked_list_to_string_array(list_t *head);
 size_t display_linked_list(const list_t *first_node);
-list_t find_node_prefix(list_tcurrent_node, char *prefix, char next_char);
-ssize_t find_node_index(list_t list_head, list_ttarget_node);
+list_t find_node_prefix(list_t current_node, char *prefix, char next_char);
+ssize_t find_node_index(list_t list_head, list_t *target_node);
 
 /* vars.c */
-int test_chain_delimeter(info_t info, charbuf, size_t *p);
-void verify_chain(info_t info, charbuf, size_t *p, size_t i, size_t len);
+int test_chain_delimeter(info_t info, char *buf, size_t *p);
+void verify_chain(info_t info, char buf, size_t *p, size_t i, size_t len);
 int substitute_alias(info_t *info);
 int substitute_vars(info_t *info);
 int swap_string(char *old, char *new);
