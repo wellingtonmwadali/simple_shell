@@ -4,7 +4,7 @@ Simple Shell Project
 
 ## Description
 
-This project is a simple shell implementation, also known as a command-line interpreter. It provides a basic command-line interface where users can interact with the operating system by executing various commands and programs.
+This project, called "Gates of Shell," serves as a milestone project for C code at ALX Africa Software Engineering. Designed to aid students in grasping advanced concepts in shell programming, it covers processes, system calls, bit manipulation, file management, and error handling. The shell itself is a basic UNIX command interpreter, mirroring the functionalities of the simple shell (sh), and was developed entirely in the C language.
 
 ## Features
 
